@@ -26,14 +26,6 @@ namespace TwitterMediaBlocker
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed<Options>(o =>
                 {
-                    if (string.IsNullOrEmpty(o.AccessToken)
-                     || string.IsNullOrEmpty(o.AccessTokenSecret)
-                     || string.IsNullOrEmpty(o.ConsumerKey)
-                     || string.IsNullOrEmpty(o.ConsumerSecret))
-                    {
-                        Environment.Exit(0);
-                    }
-
                     if (!o.Photos && !o.Gifs && !o.Videos)
                     {
                         Console.WriteLine("\nYou need to provide at least one type of media to be blocked.");
@@ -53,10 +45,7 @@ namespace TwitterMediaBlocker
                 })
                 .WithNotParsed<Options>(error =>
                 {
-                    if (error.Any(x => x.StopsProcessing))
-                        Environment.Exit(0);
-                    if (error.Any(x => x.Tag == ErrorType.MissingRequiredOptionError))
-                        Environment.Exit(0);
+                    Environment.Exit(0);
                 });
 
             try
